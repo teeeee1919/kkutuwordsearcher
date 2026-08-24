@@ -1,107 +1,114 @@
-* {
-    box-sizing: border-box;
-}
+// ========================================
+// 단어 목록
+// ========================================
+//
+// 여기에 단어를 추가하면 됩니다.
+//
+// 현재는 테스트 단어도 넣지 않았습니다.
+//
 
-body {
-    margin: 0;
-    background: #f5f6f8;
-    font-family: Arial, "Noto Sans KR", sans-serif;
-    color: #222;
-}
+const words = [];
 
-.container {
-    width: 90%;
-    max-width: 700px;
-    margin: 60px auto;
-}
 
-h1 {
-    text-align: center;
-    font-size: 32px;
-    margin: 0 0 10px;
-}
+// ========================================
+// 검색 기능
+// ========================================
 
-.subtitle {
-    text-align: center;
-    color: #777;
-    margin-bottom: 30px;
-}
+function searchWords() {
 
-.search-box {
-    display: flex;
-    gap: 10px;
-}
+    const input =
+        document.getElementById("startWord").value.trim();
 
-.search-box input {
-    flex: 1;
-    min-width: 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: white;
-    font-size: 16px;
-    outline: none;
-}
+    const results =
+        document.getElementById("results");
 
-.search-box input:focus {
-    border-color: #555;
-}
 
-.search-box button {
-    padding: 0 22px;
-    border: none;
-    border-radius: 10px;
-    background: #222;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
+    // 결과 초기화
+    results.innerHTML = "";
 
-.result-title {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
 
-#resultCount {
-    color: #777;
-}
+    // 입력하지 않았을 경우
+    if (input === "") {
 
-.results {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
+        results.innerHTML = `
+            <div class="empty">
+                시작 단어를 입력해주세요.
+            </div>
+        `;
 
-.word {
-    padding: 16px 18px;
-    border-bottom: 1px solid #eee;
-    font-size: 17px;
-}
-
-.word:last-child {
-    border-bottom: none;
-}
-
-.empty {
-    padding: 30px;
-    text-align: center;
-    color: #999;
-}
-
-@media (max-width: 500px) {
-
-    .container {
-        margin: 35px auto;
+        return;
     }
 
-    h1 {
-        font-size: 26px;
+
+    // 입력한 단어로 시작하는 단어 찾기
+    const matchedWords = words.filter(word => {
+
+        return word.startsWith(input);
+
+    });
+
+
+    // 긴 단어부터 정렬
+    matchedWords.sort((a, b) => {
+
+        if (b.length !== a.length) {
+            return b.length - a.length;
+        }
+
+        return a.localeCompare(b, "ko");
+
+    });
+
+
+    // 검색 결과가 없을 경우
+    if (matchedWords.length === 0) {
+
+        results.innerHTML = `
+            <div class="empty">
+                검색 결과가 없습니다.
+            </div>
+        `;
+
+        return;
     }
 
-    .search-box button {
-        padding: 0 16px;
-    }
+
+    // 검색 결과 표시
+    matchedWords.forEach(word => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "word";
+
+        div.textContent = word;
+
+        results.appendChild(div);
+
+    });
+
 }
+
+
+// ========================================
+// 검색 버튼
+// ========================================
+
+document
+    .getElementById("searchButton")
+    .addEventListener("click", searchWords);
+
+
+// ========================================
+// 엔터키로 검색
+// ========================================
+
+document
+    .getElementById("startWord")
+    .addEventListener("keydown", event => {
+
+        if (event.key === "Enter") {
+            searchWords();
+        }
+
+    });
