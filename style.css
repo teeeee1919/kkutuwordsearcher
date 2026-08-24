@@ -6,58 +6,38 @@
 }
 
 body {
-  background-color: #f0f2f5;
+  background-color: #f4f6f8;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 50px;
   min-height: 100vh;
 }
 
-.game-card {
+.container {
   background: white;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 400px;
-  text-align: center;
+  max-width: 480px;
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #333;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
 }
 
-.word-display {
-  background-color: #eef2ff;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
-.word-display .label {
-  font-size: 0.85rem;
-  color: #6366f1;
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-#current-word {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #1e1b4b;
-}
-
-form {
+.search-box {
   display: flex;
   gap: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 input {
   flex: 1;
-  padding: 0.8rem;
+  padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
@@ -65,65 +45,51 @@ input {
 }
 
 input:focus {
-  border-color: #6366f1;
+  border-color: #4f46e5;
 }
 
 button {
-  padding: 0.8rem 1.2rem;
-  background-color: #6366f1;
+  padding: 0.75rem 1.2rem;
+  background-color: #4f46e5;
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 button:hover {
-  background-color: #4f46e5;
+  background-color: #4338ca;
 }
 
-.message {
-  min-height: 1.2rem;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-
-.message.success {
-  color: #10b981;
-}
-
-.message.error {
-  color: #ef4444;
-}
-
-.history-container {
-  text-align: left;
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
-}
-
-.history-container h3 {
+.result-info {
   font-size: 0.9rem;
   color: #666;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
 }
 
-#history-list {
+#word-list {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  max-height: 120px;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
-#history-list li {
-  background: #f3f4f6;
-  padding: 0.3rem 0.6rem;
-  border-radius: 15px;
-  font-size: 0.85rem;
-  color: #374151;
+#word-list li {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.word-length {
+  font-size: 0.8rem;
+  color: #6366f1;
+  font-weight: bold;
 }
