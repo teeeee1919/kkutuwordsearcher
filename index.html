@@ -1,48 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>끝말잇기</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>끝말잇기 단어 사전</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <div class="game-card">
+    <h1>끝말잇기 게임</h1>
 
-    <main class="container">
+    <div class="word-display">
+      <span class="label">제시어</span>
+      <div id="current-word">기차</div>
+    </div>
 
-        <h1>〈 끝말잇기 〉</h1>
+    <form id="word-form">
+      <input type="text" id="word-input" placeholder="단어를 입력하세요" autocomplete="off" required>
+      <button type="submit">제출</button>
+    </form>
 
-        <div class="search-area">
+    <div id="message" class="message"></div>
 
-            <input
-                type="text"
-                id="startWord"
-                placeholder="시작 단어"
-                autocomplete="off"
-            >
+    <div class="history-container">
+      <h3>입력한 단어 기록</h3>
+      <ul id="history-list">
+        <li>기차</li>
+      </ul>
+    </div>
+  </div>
 
-            <button id="searchButton">
-                검색
-            </button>
-
-        </div>
-
-        <div class="result-box">
-
-            <div id="results">
-                <div class="empty">
-                    시작 단어를 입력해주세요.
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
