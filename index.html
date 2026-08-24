@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>끝말잇기 단어 찾기</title>
+    <title>끝말잇기</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="container">
+    <main class="container">
 
-        <h1>끝말잇기 단어 찾기</h1>
+        <h1>〈 끝말잇기 〉</h1>
 
-        <p class="subtitle">
-            시작 단어를 입력하세요
-        </p>
-
-        <div class="search-box">
+        <div class="search-area">
 
             <input
                 type="text"
@@ -28,31 +24,23 @@
                 autocomplete="off"
             >
 
-            <button onclick="searchWords()">
+            <button id="searchButton">
                 검색
             </button>
 
         </div>
 
-        <div class="result-title">
+        <div class="result-box">
 
-            <span>검색 결과</span>
-
-            <span id="resultCount">
-                0개
-            </span>
-
-        </div>
-
-        <div id="results" class="results">
-
-            <div class="empty">
-                시작 단어를 입력하고 검색해주세요.
+            <div id="results">
+                <div class="empty">
+                    시작 단어를 입력해주세요.
+                </div>
             </div>
 
         </div>
 
-    </div>
+    </main>
 
     <script src="script.js"></script>
 
