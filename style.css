@@ -1,1 +1,178 @@
-const words = [];
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: white;
+    color: #111;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+}
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: 55px auto;
+}
+
+/* 제목 */
+
+h1 {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 800;
+    margin: 0 0 55px;
+    letter-spacing: -2px;
+}
+
+/* 검색 영역 */
+
+.search-area {
+    display: flex;
+    gap: 18px;
+    width: 100%;
+}
+
+/* 시작 단어 입력창 */
+
+#startWord {
+    flex: 1;
+    height: 75px;
+
+    border: 3px solid #111;
+    border-radius: 12px;
+
+    padding: 0 25px;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    outline: none;
+}
+
+#startWord:focus {
+    box-shadow: 0 0 0 3px #eeeeee;
+}
+
+/* 검색 버튼 */
+
+#searchButton {
+    width: 180px;
+    height: 75px;
+
+    border: 3px solid #111;
+    border-radius: 12px;
+
+    background: #111;
+    color: white;
+
+    font-size: 23px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+#searchButton:active {
+    transform: scale(0.98);
+}
+
+/* 결과 박스 */
+
+.result-box {
+    width: 100%;
+    min-height: 420px;
+
+    margin-top: 35px;
+
+    border: 3px solid #111;
+    border-radius: 14px;
+
+    background: white;
+
+    overflow: hidden;
+}
+
+/* 결과 단어 */
+
+.word {
+    padding: 20px 25px;
+
+    border-bottom: 1px solid #dddddd;
+
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.word:last-child {
+    border-bottom: none;
+}
+
+/* 검색 결과 없음 */
+
+.empty {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 420px;
+
+    color: #999;
+
+    font-size: 21px;
+    font-weight: 500;
+}
+
+/* 모바일 */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 92%;
+        margin: 35px auto;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 35px;
+    }
+
+    .search-area {
+        gap: 10px;
+    }
+
+    #startWord {
+        height: 60px;
+        padding: 0 16px;
+        font-size: 18px;
+        border-width: 2px;
+    }
+
+    #searchButton {
+        width: 90px;
+        height: 60px;
+        font-size: 17px;
+        border-width: 2px;
+    }
+
+    .result-box {
+        margin-top: 25px;
+        min-height: 350px;
+        border-width: 2px;
+    }
+
+    .word {
+        padding: 16px;
+        font-size: 19px;
+    }
+
+    .empty {
+        min-height: 350px;
+        font-size: 17px;
+    }
+}
