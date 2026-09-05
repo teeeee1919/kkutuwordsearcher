@@ -106,6 +106,33 @@ async function searchWords() {
             ...xml.querySelectorAll("item")
         ];
 
+        // 검색어로 시작하는 단어만 남기고
+// 동사, 형용사, 접사는 제외
+const filteredItems = items.filter(item => {
+
+    const word =
+        item.querySelector("word")?.textContent.trim() || "";
+
+    const pos =
+        item.querySelector("pos")?.textContent.trim() || "";
+
+    // 입력한 글자로 시작하지 않으면 제외
+    if (!word.startsWith(query)) {
+        return false;
+    }
+
+    // 동사, 형용사, 접사 제외
+    if (
+        pos === "동사" ||
+        pos === "형용사" ||
+        pos === "접사"
+    ) {
+        return false;
+    }
+
+    return true;
+});
+
 
         // 단어 길이가 긴 순서대로 정렬
  // 검색어로 시작하는 단어만 남기기
