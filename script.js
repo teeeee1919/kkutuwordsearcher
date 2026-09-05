@@ -3,7 +3,7 @@
 // ========================================
 
 // 여기에 발급받은 인증키를 넣으세요.
-const API_KEY = "FEB800B5188DD55C874682C677466192";
+const API_KEY = "여기";
 
 const API_URL = "https://krdict.korean.go.kr/api/search";
 
@@ -106,66 +106,68 @@ async function searchWords() {
             ...xml.querySelectorAll("item")
         ];
 
-        // 검색어로 시작하는 단어만 남기고
-// 동사, 형용사, 접사는 제외
-const filteredItems = items.filter(item => {
 
-    const word =
-        item.querySelector("word")?.textContent.trim() || "";
+        // ========================================
+        // 검색 결과 필터링
+        // ========================================
 
-    const pos =
-        item.querySelector("pos")?.textContent.trim() || "";
+        const filteredItems = items.filter(item => {
 
-    // 입력한 글자로 시작하지 않으면 제외
-    if (!word.startsWith(query)) {
-        return false;
-    }
+            const word =
+                item.querySelector("word")?.textContent.trim() || "";
 
-    // 동사, 형용사, 접사 제외
-    if (
-        pos === "동사" ||
-        pos === "형용사" ||
-        pos === "접사"
-    ) {
-        return false;
-    }
-
-    return true;
-});
+            const pos =
+                item.querySelector("pos")?.textContent.trim() || "";
 
 
-        // 단어 길이가 긴 순서대로 정렬
- // 검색어로 시작하는 단어만 남기기
-const filteredItems = items.filter(item => {
-
-    const word =
-        item.querySelector("word")?.textContent.trim() || "";
-
-    return word.startsWith(query);
-
-});
+            // 반드시 검색어로 시작해야 함
+            if (!word.startsWith(query)) {
+                return false;
+            }
 
 
-// 긴 단어부터 정렬
-filteredItems.sort((a, b) => {
-
-    const wordA =
-        a.querySelector("word")?.textContent || "";
-
-    const wordB =
-        b.querySelector("word")?.textContent || "";
-
-    return [...wordB].length - [...wordA].length;
-
-});
+            // 동사 / 형용사 / 접사 제외
+            if (
+                pos === "동사" ||
+                pos === "형용사" ||
+                pos === "접사"
+            ) {
+                return false;
+            }
 
 
+            return true;
+
+        });
+
+
+        // ========================================
+        // 긴 단어부터 정렬
+        // ========================================
+
+        filteredItems.sort((a, b) => {
+
+            const wordA =
+                a.querySelector("word")?.textContent || "";
+
+            const wordB =
+                b.querySelector("word")?.textContent || "";
+
+
+            return [...wordB].length - [...wordA].length;
+
+        });
+
+
+        // ========================================
         // 결과 초기화
+        // ========================================
+
         results.innerHTML = "";
 
 
         // 결과가 없을 때
-        if (filteredItems.length === 0)
+        if (filteredItems.length === 0) {
 
             results.innerHTML = `
                 <div class="empty">
@@ -177,7 +179,10 @@ filteredItems.sort((a, b) => {
         }
 
 
+        // ========================================
         // 결과 출력
+        // ========================================
+
         filteredItems.forEach(item => {
 
             const word =
@@ -251,7 +256,7 @@ filteredItems.sort((a, b) => {
 
                 <br><br>
 
-                인증키가 올바른지 확인해주세요.
+                사전 검색에 실패했습니다.
 
             </div>
 
