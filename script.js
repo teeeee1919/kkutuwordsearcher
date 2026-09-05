@@ -108,18 +108,29 @@ async function searchWords() {
 
 
         // 단어 길이가 긴 순서대로 정렬
-        items.sort((a, b) => {
+ // 검색어로 시작하는 단어만 남기기
+const filteredItems = items.filter(item => {
 
-            const wordA =
-                a.querySelector("word")?.textContent || "";
+    const word =
+        item.querySelector("word")?.textContent.trim() || "";
 
-            const wordB =
-                b.querySelector("word")?.textContent || "";
+    return word.startsWith(query);
+
+});
 
 
-            return [...wordB].length - [...wordA].length;
+// 긴 단어부터 정렬
+filteredItems.sort((a, b) => {
 
-        });
+    const wordA =
+        a.querySelector("word")?.textContent || "";
+
+    const wordB =
+        b.querySelector("word")?.textContent || "";
+
+    return [...wordB].length - [...wordA].length;
+
+});
 
 
         // 결과 초기화
@@ -127,7 +138,7 @@ async function searchWords() {
 
 
         // 결과가 없을 때
-        if (items.length === 0) {
+        if (filteredItems.length === 0)
 
             results.innerHTML = `
                 <div class="empty">
@@ -140,7 +151,7 @@ async function searchWords() {
 
 
         // 결과 출력
-        items.forEach(item => {
+        filteredItems.forEach(item => {
 
             const word =
                 item.querySelector("word")?.textContent || "";
