@@ -2,13 +2,12 @@
 // 한국어기초사전 Open API
 // ========================================
 
-// 여기에 발급받은 인증키를 넣으세요.
-const API_KEY = "여기";
+const API_KEY = "FEB800B5188DD55C874682C677466192";
 
 const API_URL = "https://krdict.korean.go.kr/api/search";
 
 
-// HTML 요소 가져오기
+// HTML 요소
 const input = document.getElementById("startWord");
 const button = document.getElementById("searchButton");
 const results = document.getElementById("results");
@@ -22,20 +21,16 @@ async function searchWords() {
 
     const query = input.value.trim();
 
-    // 아무것도 입력하지 않았을 때
     if (!query) {
-
         results.innerHTML = `
             <div class="empty">
                 시작 단어를 입력해주세요.
             </div>
         `;
-
         return;
     }
 
 
-    // 검색 중 표시
     results.innerHTML = `
         <div class="empty">
             검색 중...
@@ -45,43 +40,42 @@ async function searchWords() {
 
     try {
 
-        // API 요청 설정
-        const params = new URLSearchParams({
-
-            key: API_KEY,
-
-            q: query,
-
-            start: "1",
-
-            num: "100",
-
-            sort: "dict",
-
-            method: "start",
-
-            type1: "word"
-
-        });
-
-
         // API 요청
+        const params = new URLSearchParams();
+
+        params.set("key", API_KEY);
+        params.set("q", query);
+        params.set("start", "1");
+        params.set("num", "100");
+        params.set("sort", "dict");
+
+        // 반드시 검색어로 시작하는 단어
+        params.set("method", "start");
+
+        // 단어만 검색
+        params.set("type1", "word");
+
+        // 동사(5), 형용사(6), 접사(10) 등을 제외
+        // 명사(1), 대명사(2), 수사(3), 조사(4),
+        // 관형사(7), 부사(8), 감탄사(9),
+        // 의존 명사(11), 품사 없음(15)
+        params.set("pos", "1,2,3,4,7,8,9,11,15");
+
+
         const response = await fetch(
-            `${API_URL}?${params.toString()}`
+            API_URL + "?" + params.toString()
         );
 
 
-        // 요청 실패
         if (!response.ok) {
             throw new Error("API 요청 실패");
         }
 
 
-        // XML 데이터 받기
         const text = await response.text();
 
 
-        // XML로 변환
+        // XML 변환
         const xml = new DOMParser().parseFromString(
             text,
             "text/xml"
@@ -101,42 +95,24 @@ async function searchWords() {
         }
 
 
-        // 검색 결과 가져오기
+        // 검색 결과
         const items = [
             ...xml.querySelectorAll("item")
         ];
 
 
         // ========================================
-        // 검색 결과 필터링
+        // 한 번 더 정확하게 시작 단어 확인
         // ========================================
 
         const filteredItems = items.filter(item => {
 
             const word =
-                item.querySelector("word")?.textContent.trim() || "";
+                item.querySelector("word")
+                    ?.textContent
+                    .trim() || "";
 
-            const pos =
-                item.querySelector("pos")?.textContent.trim() || "";
-
-
-            // 반드시 검색어로 시작해야 함
-            if (!word.startsWith(query)) {
-                return false;
-            }
-
-
-            // 동사 / 형용사 / 접사 제외
-            if (
-                pos === "동사" ||
-                pos === "형용사" ||
-                pos === "접사"
-            ) {
-                return false;
-            }
-
-
-            return true;
+            return word.startsWith(query);
 
         });
 
@@ -148,11 +124,12 @@ async function searchWords() {
         filteredItems.sort((a, b) => {
 
             const wordA =
-                a.querySelector("word")?.textContent || "";
+                a.querySelector("word")
+                    ?.textContent || "";
 
             const wordB =
-                b.querySelector("word")?.textContent || "";
-
+                b.querySelector("word")
+                    ?.textContent || "";
 
             return [...wordB].length - [...wordA].length;
 
@@ -166,7 +143,7 @@ async function searchWords() {
         results.innerHTML = "";
 
 
-        // 결과가 없을 때
+        // 결과 없음
         if (filteredItems.length === 0) {
 
             results.innerHTML = `
@@ -186,13 +163,15 @@ async function searchWords() {
         filteredItems.forEach(item => {
 
             const word =
-                item.querySelector("word")?.textContent || "";
+                item.querySelector("word")
+                    ?.textContent || "";
 
             const pos =
-                item.querySelector("pos")?.textContent || "";
+                item.querySelector("pos")
+                    ?.textContent || "";
 
 
-            // 뜻 여러 개 가져오기
+            // 뜻 가져오기
             const definitions = [
                 ...item.querySelectorAll("definition")
             ].map(element =>
@@ -200,7 +179,7 @@ async function searchWords() {
             );
 
 
-            // 단어 박스 만들기
+            // 단어 박스
             const div = document.createElement("div");
 
             div.className = "word";
@@ -217,19 +196,19 @@ async function searchWords() {
                 </div>
 
                 <div class="meaning">
-
-                    ${definitions
-                        .map(definition =>
-                            escapeHTML(definition)
-                        )
-                        .join("<br><br>")}
-
+                    ${
+                        definitions
+                            .map(definition =>
+                                escapeHTML(definition)
+                            )
+                            .join("<br><br>")
+                    }
                 </div>
 
             `;
 
 
-            // 단어 클릭하면 뜻 열기/닫기
+            // 클릭하면 뜻 표시
             div.addEventListener("click", () => {
 
                 div.classList.toggle("open");
@@ -237,7 +216,6 @@ async function searchWords() {
             });
 
 
-            // 화면에 추가
             results.appendChild(div);
 
         });
@@ -247,19 +225,12 @@ async function searchWords() {
 
         console.error(error);
 
-
         results.innerHTML = `
-
             <div class="empty">
-
                 사전 검색 중 오류가 발생했습니다.
-
                 <br><br>
-
-                사전 검색에 실패했습니다.
-
+                인증키를 확인해주세요.
             </div>
-
         `;
 
     }
@@ -268,7 +239,7 @@ async function searchWords() {
 
 
 // ========================================
-// HTML 코드 안전하게 처리
+// HTML 안전 처리
 // ========================================
 
 function escapeHTML(text) {
@@ -283,7 +254,7 @@ function escapeHTML(text) {
 
 
 // ========================================
-// 검색 버튼 클릭
+// 검색 버튼
 // ========================================
 
 button.addEventListener(
@@ -293,7 +264,7 @@ button.addEventListener(
 
 
 // ========================================
-// 엔터키로 검색
+// 엔터키
 // ========================================
 
 input.addEventListener(
@@ -301,9 +272,7 @@ input.addEventListener(
     event => {
 
         if (event.key === "Enter") {
-
             searchWords();
-
         }
 
     }
